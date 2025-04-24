@@ -31,16 +31,8 @@ import java.util.Set;
 
 public class GmailController {
 
-    private static final String SENDER_EMAIL = "cerniauskas.arturas@gmail.com";
+    private static final String SENDER_EMAIL = "e.jonas@notas-it.com";
     private final Gmail service;
-
-    //For testing
-//    public static void main(String[] args) throws GeneralSecurityException, IOException {
-//        GmailController gmailController = new GmailController();
-//        Company testCompany = new Company();
-//        testCompany.setEmail("cerniauskas.arturas@gmail.com");
-//        gmailController.sendMail(List.of(testCompany));
-//    }
 
     public GmailController() throws GeneralSecurityException, IOException {
         final NetHttpTransport httpTransport = GoogleNetHttpTransport.newTrustedTransport();
@@ -49,20 +41,6 @@ public class GmailController {
                 .setApplicationName("GmailAutomations")
                 .build();
     }
-
-
-    //For testing
-//    public static void main(String[] args) throws GeneralSecurityException, IOException {
-//        GmailController gmail = new GmailController();
-//        Company company1 = new Company();
-//        company1.setEmail("cerniauskas.arturas@gmail.com");
-//        company1.setName("Arturas");
-//        Company company2 = new Company();
-//        company2.setEmail("artcer007@yahoo.com");
-//        company2.setName("Cerniauskas");
-//        List<Company> companies = Arrays.asList(company1, company2);
-//        gmail.sendMail(companies);
-//    }
 
     public void sendMail(Company company) throws GeneralSecurityException, IOException {
         if(company.getEmail().equals("remove")){
@@ -79,16 +57,21 @@ public class GmailController {
         String recipientEmail = company.getEmail().trim().toLowerCase();
 
         // Set up the email content
-        String messageSubject = "Subject text" + company.getName();
-        String bodyText = "Greetings\n" +
+        String messageSubject = "Galimybė optimizuoti IT sprendimus";
+        String bodyText = "Sveiki,\n" +
                 "\n" +
-                "Body text\n" +
+                "Pastebėjome Jūsų įmonę ir susidomėjome, kaip šiuo metu valdote vidinius procesus – pavyzdžiui, užduočių paskirstymą komandai, patikrinimų vykdymą ar ataskaitų ruošimą.\n" +
                 "\n" +
-                "Body text\n" +
+                "Specializuojamės IT sprendimuose verslui ir padedame įmonėms supaprastinti bei automatizuoti kasdienes veiklas. Dirbame su įvairiais sektoriais – nuo paslaugų iki gamybos – ir kuriame sprendimus tokioms įmonėms kaip „Mars Lietuva“.\n" +
+                "\n" +
+                "Jei būtų aktualu, mielai atsiųsčiau pirminį pasiūlymą ar idėjų, kaip galėtume pagerinti Jūsų įmonės procesų valdymą.\n" +
                 "\n" +
                 "\n" +
-                "Cheers\n" +
-                "Name";
+                "Pagarbiai,\n" +
+                "Egidijus Jonas\n" +
+                "IT Projektų Vadovas,\n" +
+                "Tel. Nr.: +37066464906\n" +
+                "https://notas-it.com/\n";
 
         try {
             // Create the email session
@@ -98,7 +81,7 @@ public class GmailController {
 
             // Set email headers with proper error handling
             try {
-                email.setFrom(new InternetAddress(SENDER_EMAIL, "Artūras Černiauskas"));
+                email.setFrom(new InternetAddress(SENDER_EMAIL, "Egidijus Jonas"));
                 email.addRecipient(javax.mail.Message.RecipientType.TO, new InternetAddress(recipientEmail));
                 email.setSubject(messageSubject, "UTF-8");
             } catch (AddressException e) {
@@ -146,7 +129,7 @@ public class GmailController {
     private static Credential getCredentials(final NetHttpTransport httpTransport,GsonFactory jsonFactory)
             throws IOException {
         GoogleClientSecrets clientSecrets =
-                GoogleClientSecrets.load(jsonFactory, new InputStreamReader(GmailController.class.getResourceAsStream("/client_secret_363654042481-6f6l8p8mtmscl4iq9jjict6qvh31tj3j.apps.googleusercontent.com.json")));
+                GoogleClientSecrets.load(jsonFactory, new InputStreamReader(GmailController.class.getResourceAsStream("/Egidijusclient_secret_664684276365-ikg3uvvm9qi80nuj84k9vtkol4nbog6r.apps.googleusercontent.com.json")));
 
         GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(
                 httpTransport, jsonFactory, clientSecrets, Set.of(GmailScopes.GMAIL_SEND))
